@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Quantum Resource Estimation Dashobard'
+project = 'Quantum Resource Estimation Dashboard'
 copyright = '2021, Adithya Balaji'
 author = 'Adithya Balaji'
 
