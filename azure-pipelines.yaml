@@ -1,0 +1,8 @@
+trigger:
+- main
+
+jobs:
+
+- job: hello_world
+  steps:
+  - bash: echo "Hello World!"
