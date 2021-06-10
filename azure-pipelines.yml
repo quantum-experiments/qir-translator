@@ -10,10 +10,17 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
+- task: UsePythonVersion@0
+  displayName: Use Python 3.8
+  inputs:
+    versionSpec: 3.8
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    cd docs
+    pip install -r requirements.txt
+    make github
+    git config --global user.email "azure@microsoft.com"
+    git config --global user.name "Azure Pipelines"
+    git add .
+    git commit -m "Publishing GitHub Pages  ***NO_CI***"
+    git push
+  displayName: 'Run a one-line script'
