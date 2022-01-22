@@ -1,2 +1,2 @@
-# resource-estimation-dash
-Resource estimation dashboard
+# quantum-babel
+Source-to-source translator for quantum programs
