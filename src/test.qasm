@@ -6,4 +6,4 @@ creg c[1];
 h q[0];
 CX q[0], q[1];
 
-measure q[1] -> c[1];
+measure q[1] -> c[0];
