@@ -1,7 +1,10 @@
 [package]
-name = "quantum-babel"
+name = "qir-translator"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Source-to-source translator for Quantum programming languages."
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
