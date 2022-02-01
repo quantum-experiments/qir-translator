@@ -9,6 +9,8 @@ use pyqir_generator::interop::{
 use qasm::{Argument, AstNode};
 use log;
 
+use crate::qasm2qir::arguments::{QubitRef, Pair};
+
 pub struct QasmListener {
     pub(super) model: SemanticModel,
 }
@@ -168,21 +170,16 @@ impl QasmListener {
         println!("{:?}", name);
     
         if name == "h" {
-            let qubit = &qubits[0];
-            match qubit {
-                Argument::Qubit(_name, _idx) => self.h(format!("{}{}", _name, _idx)),
-                _other => {}
-            }
-    
+            let qubit: QubitRef = (&qubits).try_into().unwrap();
+            self.h(qubit.as_qir_name());
         } else if name == "CX" {
-            if let Argument::Qubit(control_name, control_idx) = &qubits[0] {
-                if let Argument::Qubit(target_name, target_idx) = &qubits[1] {
-                    self.cx(
-                        format!("{}{}", control_name, control_idx),
-                        format!("{}{}", target_name, target_idx)
-                    );
-                }
-            }
+            let Pair(control, target) =
+                (&qubits).try_into()
+                .unwrap();
+            self.cx(
+                control.as_qir_name(),
+                target.as_qir_name()
+            );
         }
     }
 
