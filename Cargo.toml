@@ -6,5 +6,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-qirlib = { path = "/Users/guen/repos/pyqir/qirlib" }
+qirlib = { path = "../pyqir/qirlib" }
 qasm = "1.0.0"
