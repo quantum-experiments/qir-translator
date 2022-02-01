@@ -1,8 +1,5 @@
 OPENQASM 2.0;
 
-// Clifford gate: Hadamard
-gate h a { u2(0,pi) a; }
-
 qreg q[2];
 creg c[1];
 

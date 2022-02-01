@@ -9,5 +9,9 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-qirlib = { path = "../pyqir/qirlib" }
+pyqir-generator = { path = "../pyqir/pyqir-generator" }
 qasm = "1.0.0"
+log = "0.4.14"
+
+[lib]
+name = "qir_translator"
