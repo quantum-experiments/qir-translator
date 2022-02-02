@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 // This code was based on pyqir_generator::python::PyQIR
-use pyqir_generator::emit::get_ir_string;
+use pyqir_generator::emit::{get_ir_string, write_model_to_file};
 use pyqir_generator::interop::{
     ClassicalRegister, Controlled, Instruction, Measured, QuantumRegister, Rotated, SemanticModel,
     Single,
@@ -9,7 +9,7 @@ use pyqir_generator::interop::{
 use qasm::{Argument, AstNode};
 use log;
 
-use crate::qasm2qir::arguments::{QubitRef, Pair};
+use crate::qasm2qir::arguments::{Register, Pair};
 
 pub struct QasmListener {
     pub(super) model: SemanticModel,
@@ -24,6 +24,10 @@ impl QasmListener {
 
     pub fn get_ir_string(&mut self) -> Result<String, String> {
         return get_ir_string(&self.model);
+    }
+
+    pub fn write_model_to_file(&mut self, file_name: String ) -> Result<(), String> {
+        return write_model_to_file(&self.model, &file_name)
     }
 
     pub fn cx(&mut self, control: String, target: String) {
@@ -159,18 +163,19 @@ impl QasmListener {
     }
 
     pub fn measure(&mut self, qubit: Argument, register: Argument) {
-        if let Argument::Qubit(_name, _idx) = qubit {
-            if let Argument::Register(_reg_name) = register {
-                self.m(format!("{}{}", _name, _idx), format!("{}0", _reg_name));
-            }
-        }
+        let qubit: Register = (&qubit).try_into().unwrap();
+        let register: Register = (&register).try_into().unwrap();
+        self.m(
+            qubit.as_qir_name(),
+            register.as_qir_name()
+        );
     }
-    
+
     pub fn apply_gate(&mut self, name: String, qubits: Vec<Argument>) {
         println!("{:?}", name);
     
         if name == "h" {
-            let qubit: QubitRef = (&qubits).try_into().unwrap();
+            let qubit: Register = (&qubits).try_into().unwrap();
             self.h(qubit.as_qir_name());
         } else if name == "CX" {
             let Pair(control, target) =

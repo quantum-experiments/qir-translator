@@ -8,8 +8,10 @@ use std::fs::File;
 use std::io::prelude::*;
 use qasm::{process, lex, parse};
 use qir_translator::qasm2qir::listener::QasmListener;
+use log;
 
 fn main() {
+    log::info!("Test");
     let cwd = env::current_dir().unwrap();
     let mut source = String::new();
 
@@ -40,6 +42,9 @@ fn main() {
         }
     }
     
-    println!("Emitted QIR:");
-    println!("{:?}", listener.get_ir_string());
+    // println!("Emitted QIR:");
+    // println!("{:?}", listener.get_ir_string());
+    let file_name = "test.ll";
+    let result = listener.write_model_to_file(file_name.to_string());
+    println!("{:?}", result);
 }

@@ -1,7 +1,7 @@
 use qasm::Argument;
 
-pub struct QubitRef(pub String, pub i32);
-impl QubitRef {
+pub struct Register(pub String, pub i32);
+impl Register {
     pub fn as_qir_name(&self) -> String {
         format!("{}{}", self.0, self.1)
     }
@@ -9,20 +9,20 @@ impl QubitRef {
 
 // Needed so that we have a local type to avoid the orphan rule for
 // trait coherence.
-pub struct Pair<T, U>(pub T, pub U);
+pub struct Pair<Register1, Register2>(pub Register1, pub Register2);
 
-impl TryFrom<&Argument> for QubitRef {
+impl TryFrom<&Argument> for Register {
     type Error = String;
 
     fn try_from(value: &Argument) -> Result<Self, Self::Error> {
         match value {
-            Argument::Qubit(name, idx) => Ok(QubitRef(name.to_owned(), *idx)),
+            Argument::Qubit(name, idx) => Ok(Register(name.to_owned(), *idx)),
             _ => Err(format!("Expected qubit argument, got {:?}.", value))
         }
     }
 }
 
-impl TryFrom<&Vec<Argument>> for QubitRef {
+impl TryFrom<&Vec<Argument>> for Register {
     type Error = String;
 
     fn try_from(value: &Vec<Argument>) -> Result<Self, Self::Error> {
@@ -33,7 +33,7 @@ impl TryFrom<&Vec<Argument>> for QubitRef {
     }
 }
 
-impl TryFrom<&Vec<Argument>> for Pair<QubitRef, QubitRef> {
+impl TryFrom<&Vec<Argument>> for Pair<Register, Register> {
     type Error = String;
 
     fn try_from(value: &Vec<Argument>) -> Result<Self, Self::Error> {
